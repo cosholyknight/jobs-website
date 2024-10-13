@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  servlet:
+    context-path: "/jobproject"
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost:3306/jobs"
+    username: root
+    password: 0942616257Ben
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+jwt:
+  signerKey: "6txTWiDA1QBdPY+5cJ8w03FjjBPZFN4hPEaueuARhP09VEWwzJ2ApPSiXRh3LUFH"
+  valid-duration: 3600 #in seconds
+  refresh-duration: 36000 #in seconds
