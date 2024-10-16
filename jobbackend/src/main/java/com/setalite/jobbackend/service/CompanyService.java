@@ -34,8 +34,19 @@ public class CompanyService {
     }
 
     public CompanyResponse createCompany(CompanyCreationRequest request) {
+        if (companyRepository.existsByName(request.getName())) {
+            return companyMapper.toCompanyResponse(companyMapper.toCompany(request));
+        }
         Company company = companyMapper.toCompany(request);
         return companyMapper.toCompanyResponse(companyRepository.save(company));
+    }
+
+    public Company createCompanyInJob(CompanyCreationRequest request) {
+        if (companyRepository.existsByName(request.getName())) {
+            return companyMapper.toCompany(request);
+        }
+        Company company = companyMapper.toCompany(request);
+        return companyRepository.save(company);
     }
 
     public List<CompanyResponse> getAllCompanies() {

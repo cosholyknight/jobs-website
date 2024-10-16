@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class JobCreationRequest {
+public class JobUpdateRequest {
+    String id;
     String title;
     String type;
     String description;

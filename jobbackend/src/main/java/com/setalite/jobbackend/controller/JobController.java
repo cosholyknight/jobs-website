@@ -1,8 +1,10 @@
 package com.setalite.jobbackend.controller;
 
 import com.setalite.jobbackend.dto.request.JobCreationRequest;
+import com.setalite.jobbackend.dto.request.JobUpdateRequest;
 import com.setalite.jobbackend.dto.response.ApiResponse;
 import com.setalite.jobbackend.dto.response.JobResponse;
+import com.setalite.jobbackend.entity.Job;
 import com.setalite.jobbackend.service.JobService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -45,6 +48,15 @@ public class JobController {
         jobService.deleteJobById(id);
         return ApiResponse.<Void>builder()
                 .message("Job with id " + id + " deleted.")
+                .build();
+    }
+
+    @PutMapping("/edit-job")
+    ApiResponse<JobResponse> updateJob(
+            @RequestBody JobUpdateRequest request
+            ) {
+        return ApiResponse.<JobResponse>builder()
+                .result(jobService.updateJob(request))
                 .build();
     }
 }

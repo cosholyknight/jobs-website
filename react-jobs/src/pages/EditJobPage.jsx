@@ -1,25 +1,30 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useLoaderData, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const AddJobPage = ({ addJobSubmit }) => {
-  const [title, setTitle] = useState("");
-  const [type, setType] = useState("Full-time");
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
-  const [salary, setSalary] = useState("Under $50K");
-  const [companyName, setCompanyName] = useState("");
-  const [companyDescription, setCompanyDescription] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
-
+const EditJobPage = (updateJobSubmit) => {
+  const job = useLoaderData();
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const [title, setTitle] = useState(job.title);
+  const [type, setType] = useState(job.type);
+  const [location, setLocation] = useState(job.location);
+  const [description, setDescription] = useState(job.description);
+  const [salary, setSalary] = useState(job.salary);
+  const [companyName, setCompanyName] = useState(job.companyName);
+  const [companyDescription, setCompanyDescription] = useState(
+    job.companyDescription
+  );
+  const [contactEmail, setContactEmail] = useState(job.contactEmail);
+  const [contactPhone, setContactPhone] = useState(job.contactPhone);
 
   const submitForm = (e) => {
     e.preventDefault();
 
-    const newJob = {
+    const updatedJob = {
+      id,
       title,
       type,
       location,
@@ -33,11 +38,11 @@ const AddJobPage = ({ addJobSubmit }) => {
       },
     };
 
-    addJobSubmit(newJob);
+    updateJobSubmit(updatedJob);
 
-    toast.success("Job added successfully!");
+    toast.success("Job updated successfully!");
 
-    return navigate("/jobs");
+    return navigate(`/jobs/${job.id}`);
   };
 
   return (
@@ -253,4 +258,5 @@ const AddJobPage = ({ addJobSubmit }) => {
     </section>
   );
 };
-export default AddJobPage;
+
+export default EditJobPage;
