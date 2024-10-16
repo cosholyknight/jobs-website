@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class JobUpdateRequest {
-    String id;
     String title;
     String type;
     String description;

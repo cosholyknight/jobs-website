@@ -25,6 +25,6 @@ public class Job {
     String location;
     String salary;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     Company company;
 }

@@ -43,7 +43,8 @@ public class CompanyService {
 
     public Company createCompanyInJob(CompanyCreationRequest request) {
         if (companyRepository.existsByName(request.getName())) {
-            return companyMapper.toCompany(request);
+            return companyRepository.findByName(request.getName())
+                    .orElseThrow(() -> new AppException(ErrorCode.COMPANY_NOT_EXISTED));
         }
         Company company = companyMapper.toCompany(request);
         return companyRepository.save(company);

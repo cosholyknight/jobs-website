@@ -18,8 +18,14 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
 
+    @Column(unique = true, nullable = false)
     String name;
+
     String description;
+
+    @Column(unique = true)
     String contactEmail;
+
+    @Column(unique = true)
     String contactPhone;
 }

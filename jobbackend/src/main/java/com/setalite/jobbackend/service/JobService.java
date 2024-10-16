@@ -42,12 +42,10 @@ public class JobService {
                 .toList();
     }
 
-    public JobResponse updateJob(JobUpdateRequest request) {
-        Job job = jobRepository.findById(request.getId())
+    public JobResponse updateJob(JobUpdateRequest request, String id) {
+        Job job = jobRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.JOB_NOT_EXISTED));
         jobMapper.updateJob(job, request);
-        Company company = companyService.createCompanyInJob(request.getCompany());
-        job.setCompany(company);
         return jobMapper.toJobResponse(jobRepository.save(job));
     }
 
@@ -58,6 +56,7 @@ public class JobService {
     }
 
     public void deleteJobById(String id) {
+
         jobRepository.deleteById(id);
     }
 }

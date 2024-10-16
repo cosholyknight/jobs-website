@@ -51,12 +51,13 @@ public class JobController {
                 .build();
     }
 
-    @PutMapping("/edit-job")
+    @PutMapping("/{job-id}")
     ApiResponse<JobResponse> updateJob(
+            @PathVariable ("job-id") String id,
             @RequestBody JobUpdateRequest request
             ) {
         return ApiResponse.<JobResponse>builder()
-                .result(jobService.updateJob(request))
+                .result(jobService.updateJob(request, id))
                 .build();
     }
 }
