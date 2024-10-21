@@ -1,5 +1,5 @@
 # Jobs Website
-This is an online Job Website for both employees and recruiters which implemented ReactJS for front-end and Spring Boot for back-end.
+This is an online Job Website for both employees and recruiters which implemented ReactJS for front-end and Spring Boot for back-end, MySQL for database.
 ## Functionalities
 ### Job
 - Create Job
