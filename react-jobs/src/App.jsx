@@ -13,6 +13,8 @@ import NotFoundPage from "./pages/NotFoundPage";
 import JobPage, { jobLoader } from "./pages/JobPage";
 import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
+import CompaniesPage from "./pages/CompaniesPage";
+import AddCompanyPage from "./pages/AddCompanyPage";
 
 const App = () => {
   const addJob = async (newJob) => {
@@ -41,7 +43,13 @@ const App = () => {
       },
       body: JSON.stringify(updatedJob),
     });
-    console.log(JSON.stringify(updatedJob));
+    return;
+  };
+  const addCompany = async (newCompany) => {
+    const res = await fetch("/api/companies", {
+      method: "POST",
+      body: newCompany,
+    });
     return;
   };
 
@@ -60,8 +68,13 @@ const App = () => {
           element={<EditJobPage updateJobSubmit={updateJob} />}
           loader={jobLoader}
         />
+        <Route path="/companies" element={<CompaniesPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
+        <Route
+          path="/add-company"
+          element={<AddCompanyPage addCompanySubmit={addCompany} />}
+        />
       </Route>
     )
   );

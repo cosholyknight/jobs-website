@@ -30,7 +30,7 @@ public class JobService {
 
     public JobResponse createJob(JobCreationRequest request) {
         Job job = jobMapper.toJob(request);
-        Company company = companyService.createCompanyInJob(request.getCompany());
+        Company company = companyService.getCompany(request.getCompanyId());
         job.setCompany(company);
         return jobMapper.toJobResponse(jobRepository.save(job));
     }

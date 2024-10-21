@@ -15,5 +15,5 @@ public class JobUpdateRequest {
     String description;
     String location;
     String salary;
-    CompanyCreationRequest company;
+    String companyName;
 }

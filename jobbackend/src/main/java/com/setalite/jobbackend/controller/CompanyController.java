@@ -11,9 +11,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,7 +28,20 @@ public class CompanyController {
     CompanyService companyService;
 
     @PostMapping
-    ApiResponse<CompanyResponse> createCompany(@RequestBody CompanyCreationRequest request) {
+    ApiResponse<CompanyResponse> createCompany(@RequestParam("name") String name,
+                                               @RequestParam("description") String description,
+                                               @RequestParam("officeAddress") String officeAddress,
+                                               @RequestParam("contactEmail") String contactEmail,
+                                               @RequestParam("contactPhone") String contactPhone,
+                                               @RequestParam("logoFile") MultipartFile logoFile) throws IOException {
+        CompanyCreationRequest request = CompanyCreationRequest.builder()
+                .name(name)
+                .description(description)
+                .officeAddress(officeAddress)
+                .contactEmail(contactEmail)
+                .contactPhone(contactPhone)
+                .logoFile(logoFile)
+                .build();
         return ApiResponse.<CompanyResponse>builder()
                 .result(companyService.createCompany(request))
                 .build();

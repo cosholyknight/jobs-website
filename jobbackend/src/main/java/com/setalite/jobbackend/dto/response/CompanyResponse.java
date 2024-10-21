@@ -13,7 +13,12 @@ import lombok.NoArgsConstructor;
 public class CompanyResponse {
     String id;
     String name;
+    String officeAddress;
+
     String description;
     String contactEmail;
     String contactPhone;
+
+    String logoPath;
+
 }

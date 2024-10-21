@@ -1,7 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AddJobPage = ({ addJobSubmit }) => {
   const [title, setTitle] = useState("");
@@ -9,12 +10,23 @@ const AddJobPage = ({ addJobSubmit }) => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [salary, setSalary] = useState("Under $50K");
-  const [companyName, setCompanyName] = useState("");
-  const [companyDescription, setCompanyDescription] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
+  const [companyId, setCompanyId] = useState("");
+  const [companies, setCompanies] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getCompanies = async () => {
+      try {
+        const response = await axios.get("/api/companies");
+        setCompanies(response.data.result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getCompanies();
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -25,14 +37,9 @@ const AddJobPage = ({ addJobSubmit }) => {
       location,
       description,
       salary,
-      company: {
-        name: companyName,
-        description: companyDescription,
-        contactEmail,
-        contactPhone,
-      },
+      companyId,
     };
-
+    console.log(JSON.stringify(newJob));
     addJobSubmit(newJob);
 
     toast.success("Job added successfully!");
@@ -159,84 +166,39 @@ const AddJobPage = ({ addJobSubmit }) => {
 
             <h3 className="text-2xl mb-5">Company Info</h3>
 
-            <div className="mb-4">
+            <div className="mb-4 relative">
               <label
-                htmlFor="company"
+                htmlFor="type"
                 className="block text-gray-700 font-bold mb-2"
               >
                 Company Name
               </label>
-              <input
-                type="text"
-                id="company"
-                name="company"
-                className="border rounded w-full py-2 px-3"
-                placeholder="Company Name"
-                value={companyName}
-                onChange={(e) => {
-                  setCompanyName(e.target.value);
-                }}
-              />
-            </div>
 
-            <div className="mb-4">
-              <label
-                htmlFor="company_description"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Company Description
-              </label>
-              <textarea
-                id="company_description"
-                name="company_description"
+              <select
+                id="companyId"
+                name="companyId"
                 className="border rounded w-full py-2 px-3"
-                rows="4"
-                placeholder="What does your company do?"
-                value={companyDescription}
-                onChange={(e) => {
-                  setCompanyDescription(e.target.value);
-                }}
-              ></textarea>
-            </div>
-
-            <div className="mb-4">
-              <label
-                htmlFor="contact_email"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Contact Email
-              </label>
-              <input
-                type="email"
-                id="contact_email"
-                name="contact_email"
-                className="border rounded w-full py-2 px-3"
-                placeholder="Email address for applicants"
                 required
-                value={contactEmail}
+                value={companyId}
                 onChange={(e) => {
-                  setContactEmail(e.target.value);
+                  setCompanyId(e.target.value);
                 }}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="contact_phone"
-                className="block text-gray-700 font-bold mb-2"
               >
-                Contact Phone
-              </label>
-              <input
-                type="tel"
-                id="contact_phone"
-                name="contact_phone"
-                className="border rounded w-full py-2 px-3"
-                placeholder="Optional phone for applicants"
-                value={contactPhone}
-                onChange={(e) => {
-                  setContactPhone(e.target.value);
-                }}
-              />
+                <option>Select Company</option>
+                {companies.map((company) => (
+                  <option value={company.id}>{company.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mb-4"
+                onClick={() => navigate("/add-company")}
+              >
+                Add New Company
+              </button>
             </div>
 
             <div>
